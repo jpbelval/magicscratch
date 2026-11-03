@@ -1,0 +1,8 @@
+version: 1
+bundleID: com.illusionmagic.Illusion
+product: Illusion
+infoPath: xtool-Info.plist
+iconPath: Illusion/Assets.xcassets/AppIcon.appiconset/AppIcon.png
+resources:
+  - Illusion/PrivacyInfo.xcprivacy
+skipLSP: true
