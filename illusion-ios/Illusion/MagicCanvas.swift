@@ -39,7 +39,7 @@ final class ScratchView: UIView {
         picture.contentsGravity = .resizeAspect
         picture.mask = revealMask
         backdrop.contentsGravity = .resizeAspectFill
-        isAccessibilityElement = true
+        isAccessibilityElement = false
         accessibilityLabel = "Scène magique"
         accessibilityHint = "Glissez pour révéler l’image, puis touchez une partie révélée pour la faire disparaître."
         accessibilityTraits = [.allowsDirectInteraction]

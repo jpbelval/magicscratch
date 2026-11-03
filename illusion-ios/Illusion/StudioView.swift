@@ -12,13 +12,13 @@ struct StudioView: View {
     @State private var fileIsBackground = false
     @State private var loadingImage = false
     @State private var loadingBackground = false
-    private let paper = Color(red: 0.96, green: 0.97, blue: 0.94)
+    private let paper = Color(red: 0, green: 0, blue: 0)
 
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 18) {
                 HStack {
-                    Label("illusion.", systemImage: "sparkles").font(.system(size: 30, weight: .bold, design: .rounded))
+                    Label("Seb's Magic Scratch.", systemImage: "sparkles").font(.system(size: 30, weight: .bold, design: .rounded))
                     Spacer()
                     Button { help = true } label: { Image(systemName: "questionmark.circle").font(.title2).frame(width: 44, height: 44) }.accessibilityLabel("Mode d’emploi")
                 }
@@ -41,7 +41,7 @@ struct StudioView: View {
         }
         .sheet(isPresented: $help) { helpSheet }
         .fullScreenCover(isPresented: $performing, onDismiss: { studio.reset() }) { PerformanceView() }
-        .alert("Illusion", isPresented: Binding(get: { studio.error != nil }, set: { if !$0 { studio.error = nil } })) {
+        .alert("Magic Scratch", isPresented: Binding(get: { studio.error != nil }, set: { if !$0 { studio.error = nil } })) {
             Button("OK") { studio.error = nil }
         } message: { Text(studio.error ?? "") }
         .task(id: imageSelection) { await loadPhoto(imageSelection, background: false) }
@@ -69,7 +69,7 @@ struct StudioView: View {
     private var settings: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
-                Text("Votre illusion").font(.title2.weight(.semibold))
+                Text("Magic Scratch").font(.title2.weight(.semibold))
                 GroupBox {
                     VStack(alignment: .leading, spacing: 14) {
                         Text("01  L’image à révéler").font(.headline)
@@ -102,13 +102,13 @@ struct StudioView: View {
                 }
                 GroupBox {
                     VStack(alignment: .leading, spacing: 14) {
-                        Text("03  Le geste magique").font(.headline)
+                        Text("03  Grattage").font(.headline)
                         Text("Largeur : \(Int(studio.settings.brush)) points").font(.caption)
                         Slider(value: $studio.settings.brush, in: 20...150, onEditingChanged: { editing in if !editing { studio.save() } }).accessibilityLabel("Largeur du grattage")
                     }.frame(maxWidth: .infinity, alignment: .leading)
                 }
                 Button { studio.reset(); performing = true } label: {
-                    Label("Lancer le spectacle", systemImage: "sparkles").font(.headline).frame(maxWidth: .infinity).padding(.vertical, 12)
+                    Label("Lancer le scratcher", systemImage: "sparkles").font(.headline).frame(maxWidth: .infinity).padding(.vertical, 12)
                 }.buttonStyle(.borderedProminent).disabled(loadingImage || loadingBackground)
                 Text("Vos images restent sur cet appareil.").font(.caption).foregroundStyle(.secondary)
             }.padding(.bottom, 20)
@@ -153,13 +153,9 @@ struct PerformanceView: View {
     var body: some View {
         MagicCanvas().ignoresSafeArea()
             .overlay(alignment: .topTrailing) {
-                Image(systemName: "xmark").font(.title3).foregroundStyle(.gray.opacity(0.45))
-                    .frame(width: 52, height: 52).contentShape(Rectangle()).padding(8)
-                    .onLongPressGesture(minimumDuration: 1) { dismiss() }
-                    .accessibilityLabel("Quitter le spectacle")
-                    .accessibilityHint("Maintenez pendant une seconde")
-                    .accessibilityAddTraits(.isButton)
-                    .accessibilityAction { dismiss() }
+                Image(systemName: "xmark").opacity(0).font(.title3).foregroundStyle(.gray.opacity(0.45))
+                    .frame(width: 80, height: 80).contentShape(Rectangle()).padding(8)
+                    .onLongPressGesture(minimumDuration: 3) { dismiss() }
             }
             .statusBarHidden().persistentSystemOverlays(.hidden)
             .onAppear { previousIdleDisabled = UIApplication.shared.isIdleTimerDisabled; UIApplication.shared.isIdleTimerDisabled = true }
